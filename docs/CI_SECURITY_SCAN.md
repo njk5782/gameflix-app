@@ -13,7 +13,8 @@ The workflow performs these steps for every push or pull request targeting
 
 1. Checks out the repository.
 2. Configures Java 17 and Maven dependency caching.
-3. Builds the project and runs all automated tests.
+3. Builds the project and runs all automated tests with the isolated H2 test
+   database configured in `src/test/resources/application.properties`.
 4. Runs OWASP Dependency-Check.
 5. Uploads HTML and JSON security reports as a workflow artifact.
 6. Builds the GameFlix Docker image.
@@ -40,3 +41,7 @@ Automating this scan helps detect known problems whenever dependencies or
 application code are pushed. A reported vulnerability must still be reviewed
 to determine whether it affects GameFlix and whether the dependency should be
 updated, removed, or documented as a false positive.
+
+The CI test profile does not override its H2 driver with production MySQL
+connection values. Railway and local Docker Compose still use MySQL at runtime;
+H2 keeps automated tests repeatable and independent of persistent data.

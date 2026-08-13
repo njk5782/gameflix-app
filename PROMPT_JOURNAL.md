@@ -167,6 +167,12 @@ and catalog returned HTTP 200. A deployed test completed registration, JWT
 login, subscription saving, game addition, and game removal against Railway
 MySQL. The temporary catalog record was removed after verification.
 
+**CI correction:** The first deployment commit exposed a test configuration
+conflict: CI supplied a MySQL URL while the test profile selected the H2 driver.
+I reproduced the failure locally and removed the unused CI MySQL overrides so
+the 13 automated tests use their isolated H2 database. Railway continues to use
+MySQL for the deployed application.
+
 ## Overall review and accountability
 
 AI accelerated scaffolding, repetitive code, test ideas, and troubleshooting,
