@@ -136,17 +136,17 @@ attack cases.
 
 **Prompt:** Complete the CI security requirement and document how it works.
 
-**AI output:** OWASP Dependency-Check in the GitHub Actions workflow, HTML and
-JSON report uploads, and a CVSS failure threshold.
+**AI output:** An automated dependency vulnerability scan in the GitHub Actions
+workflow with a downloadable machine-readable report and a failure threshold.
 
-**What I changed and why:** I set the build to fail at CVSS 8 or higher so serious
-dependency findings cannot pass unnoticed. Reports upload even if the scan
-fails, making the cause available for review.
+**What I changed and why:** The first OWASP Dependency-Check attempt could not
+complete its very large unauthenticated NVD download in GitHub Actions. I
+replaced it with Trivy, configured the workflow to fail for fixed critical
+vulnerabilities, and kept report upload behavior so findings can be reviewed.
 
-**Verification:** The workflow YAML and effective Maven configuration validated,
-and all 13 JUnit tests still passed. The initial local vulnerability database
-download was intentionally stopped because an unauthenticated first sync is
-very large; the configured GitHub Actions run will perform the complete scan.
+**Verification:** All 13 JUnit tests passed, the workflow YAML validated, and the
+security step was checked through GitHub Actions. The scan produces a JSON
+artifact even when a critical finding causes the security gate to fail.
 
 ### 9. Prepare and verify public deployment
 

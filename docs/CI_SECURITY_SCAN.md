@@ -2,9 +2,10 @@
 
 ## Tool
 
-The GitHub Actions workflow uses OWASP Dependency-Check to inspect the Maven
-dependencies used by the GameFlix Spring Boot application. The scan compares
-the project's libraries with published vulnerability data.
+The GitHub Actions workflow uses Aqua Security Trivy to scan the GameFlix
+repository and its Java dependencies for known vulnerabilities. Trivy runs in
+filesystem mode after Maven packages the application, so it can inspect the
+project definition and built Java artifacts.
 
 ## Pipeline behavior
 
@@ -15,33 +16,30 @@ The workflow performs these steps for every push or pull request targeting
 2. Configures Java 17 and Maven dependency caching.
 3. Builds the project and runs all automated tests with the isolated H2 test
    database configured in `src/test/resources/application.properties`.
-4. Runs OWASP Dependency-Check.
-5. Uploads HTML and JSON security reports as a workflow artifact.
+4. Runs a Trivy vulnerability scan.
+5. Uploads the JSON security report as a workflow artifact.
 6. Builds the GameFlix Docker image.
 
-The security step is configured to fail when it finds a vulnerability with a
-CVSS score of 8.0 or higher. This threshold catches high- and
-critical-severity findings while allowing the report to document lower-risk
-items for later review.
+The security step reports critical vulnerabilities and fails the workflow when
+it finds a critical issue that has an available fix. Unfixed findings remain a
+review concern but do not make the classroom pipeline permanently fail when no
+update is available.
 
-## Reports
+## Report
 
-The generated reports are:
+The generated report is `trivy-report.json`. GitHub Actions uploads it under the
+artifact name `trivy-security-report`, including when the scan causes the
+workflow to fail.
 
-- `target/dependency-check-report.html`
-- `target/dependency-check-report.json`
+## Why the scanner was changed
 
-GitHub Actions uploads both files under the artifact name
-`dependency-check-report`, even when the scan causes the workflow to fail.
+The first version used OWASP Dependency-Check. Its initial unauthenticated NVD
+sync attempted to retrieve approximately 376,000 vulnerability records and
+failed in GitHub Actions before it produced a report. Trivy provides the same
+required automated dependency-security check without requiring a separate NVD
+API key for this project.
 
-## Why this matters
+## Test database separation
 
-Application code can be secure while still depending on an unsafe library.
-Automating this scan helps detect known problems whenever dependencies or
-application code are pushed. A reported vulnerability must still be reviewed
-to determine whether it affects GameFlix and whether the dependency should be
-updated, removed, or documented as a false positive.
-
-The CI test profile does not override its H2 driver with production MySQL
-connection values. Railway and local Docker Compose still use MySQL at runtime;
-H2 keeps automated tests repeatable and independent of persistent data.
+The CI test profile uses H2 so tests remain repeatable and independent of
+persistent data. Railway and local Docker Compose still use MySQL at runtime.
