@@ -42,14 +42,18 @@ communicate over its private network.
 
 ## Deployment verification record
 
-- **Public URL:** Pending
+- **Public URL:** https://gameflix-app-production.up.railway.app
 - **Deployment platform:** Railway
-- **Application status:** Pending public deployment
-- **Database status:** Pending Railway MySQL provisioning
-- **Verified features:** Pending final browser check
+- **Application status:** Deployed and publicly accessible
+- **Database status:** Connected to Railway MySQL
+- **Verified on:** August 12, 2026
+- **Verified features:** Homepage, public catalog, registration, JWT login,
+  subscription persistence, catalog addition, and catalog removal
 
-Do not mark this deployment complete until the generated public URL loads in a
-private browser window and the database-backed features work.
+The homepage and public catalog each returned HTTP 200. A disposable account
+successfully logged in, saved the Player subscription, added a temporary game,
+and removed that game. This confirmed both public access and authenticated
+database writes on the deployed application.
 
 ## Known deployment limitation
 

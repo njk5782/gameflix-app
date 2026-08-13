@@ -28,8 +28,8 @@ Codex output search.
 | Module 5: explain every Dockerfile directive | Complete | `docs/DOCKERFILE_EXPLAINED.md` explains `FROM`, `WORKDIR`, `COPY`, and `ENTRYPOINT`. |
 | Module 5: GitHub Actions CI with automated tests | Complete locally; push required | The workflow builds with Maven, which runs all 13 tests. The current changes must be committed and pushed for GitHub to run them. |
 | Module 5: automated security scan | Complete locally; full CI run pending | OWASP Dependency-Check and report uploads are configured and documented. Confirm the complete GitHub Actions result after pushing. |
-| Module 6: deployed application and working link | Not complete | The application works locally with Docker, but a public deployment link has not been confirmed. |
-| Module 6: deployment documentation | Prepared; URL pending | `docs/DEPLOYMENT.md` documents the Railway setup. Add the generated URL and final verification results after deployment. |
+| Module 6: deployed application and working link | Complete | The verified public application is available at `https://gameflix-app-production.up.railway.app`. |
+| Module 6: deployment documentation | Complete | `docs/DEPLOYMENT.md` records the Railway setup, public URL, database connection, and deployed workflow verification. |
 | Module 6: 10-minute demo | Draft is outdated | The retained demo guide predates JWT, stored subscriptions, game removal, Postman testing, 13 tests, and the required two-minute live code modification. Rewrite after deployment decisions. |
 | Module 6: individual reflection | Verify prior draft; final copy needed | No final reflection file was found in this repository. Confirm any earlier course submission, then update it to cover AI help and misleading output. |
 
@@ -39,7 +39,6 @@ Codex output search.
    reflection instead of recreating already submitted work unnecessarily.
 2. Commit and push the current project with an `[AI-assisted]` message, then
    confirm the GitHub Actions build and security scan.
-3. Deploy GameFlix and record the working public URL and deployment process.
-4. Update the final demo guide to reflect the current features, include the
+3. Update the final demo guide to reflect the current features, include the
    required two-minute live code walkthrough/modification, and mention the real
    test totals and limitations.

@@ -148,6 +148,25 @@ and all 13 JUnit tests still passed. The initial local vulnerability database
 download was intentionally stopped because an unauthenticated first sync is
 very large; the configured GitHub Actions run will perform the complete scan.
 
+### 9. Prepare and verify public deployment
+
+**Prompt:** Deploy GameFlix from my GitHub repository on Railway and confirm the
+public application works with MySQL.
+
+**AI output:** A multi-stage Dockerfile that builds from source, cloud-port
+support, Railway MySQL variable instructions, and deployment documentation.
+
+**What I changed and why:** I connected my GitHub repository to a new Railway
+project, added the managed MySQL service, configured its referenced credentials,
+and generated the public domain. The Dockerfile was changed because the earlier
+version expected a local `target` folder that does not exist in a clean GitHub
+deployment.
+
+**Verification:** The production image built locally, and the public homepage
+and catalog returned HTTP 200. A deployed test completed registration, JWT
+login, subscription saving, game addition, and game removal against Railway
+MySQL. The temporary catalog record was removed after verification.
+
 ## Overall review and accountability
 
 AI accelerated scaffolding, repetitive code, test ideas, and troubleshooting,
