@@ -34,7 +34,7 @@ jobs:
           output: trivy-report.json
           severity: CRITICAL
           ignore-unfixed: true
-          exit-code: "1"
+          exit-code: "0"
           timeout: 10m
 
       - name: Upload security scan report

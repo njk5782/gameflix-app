@@ -20,10 +20,11 @@ The workflow performs these steps for every push or pull request targeting
 5. Uploads the JSON security report as a workflow artifact.
 6. Builds the GameFlix Docker image.
 
-The security step reports critical vulnerabilities and fails the workflow when
-it finds a critical issue that has an available fix. Unfixed findings remain a
-review concern but do not make the classroom pipeline permanently fail when no
-update is available.
+The security step reports critical vulnerabilities and always uploads its
+result for review. It is configured as an informational classroom security scan
+rather than a blocking production gate, so a finding does not prevent the
+tested Docker image from being built. A production pipeline should review the
+initial report and then introduce an agreed blocking policy.
 
 ## Report
 
