@@ -16,6 +16,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    private String subscriptionPlan = "NONE";
+
     public User() {
     }
 
@@ -36,6 +38,10 @@ public class User {
         return password;
     }
 
+    public String getSubscriptionPlan() {
+        return subscriptionPlan;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -46,5 +52,9 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setSubscriptionPlan(String subscriptionPlan) {
+        this.subscriptionPlan = subscriptionPlan;
     }
 }

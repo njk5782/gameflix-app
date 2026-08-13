@@ -1,0 +1,9 @@
+.git
+.github
+.idea
+.postman
+docs
+postman
+target
+*.iml
+.DS_Store

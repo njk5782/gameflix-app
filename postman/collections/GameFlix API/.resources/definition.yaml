@@ -1,0 +1,9 @@
+$kind: collection
+name: GameFlix API
+description: Tests registration, JWT login, subscriptions, catalog access, and failed authentication cases.
+variables:
+  baseUrl: http://localhost:8080
+  username: postman_player
+  password: gameflix123
+  jwtToken: ""
+  invalidToken: ""

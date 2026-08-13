@@ -58,6 +58,37 @@ class MovieServiceTest {
                 () -> movieService.addMovie(movie)
         );
 
-        assertEquals("Movie title already exists", exception.getMessage());
+        assertEquals("Game title already exists", exception.getMessage());
+    }
+
+    @Test
+    void addMovie_WhenValid_ShouldSaveMovie() {
+        Movie movie = new Movie("Interstellar", "Science Fiction", 2014);
+        when(movieRepository.existsByTitleIgnoreCase("Interstellar")).thenReturn(false);
+        when(movieRepository.save(movie)).thenReturn(movie);
+        Movie savedMovie = movieService.addMovie(movie);
+        assertEquals("Interstellar", savedMovie.getTitle());
+        verify(movieRepository).save(movie);
+    }
+
+    @Test
+    void deleteMovie_WhenGameExists_ShouldDeleteGame() {
+        when(movieRepository.existsById(1L)).thenReturn(true);
+
+        movieService.deleteMovie(1L);
+
+        verify(movieRepository).deleteById(1L);
+    }
+
+    @Test
+    void deleteMovie_WhenGameDoesNotExist_ShouldRejectRequest() {
+        when(movieRepository.existsById(99L)).thenReturn(false);
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> movieService.deleteMovie(99L)
+        );
+
+        assertEquals("Game not found", exception.getMessage());
     }
 }

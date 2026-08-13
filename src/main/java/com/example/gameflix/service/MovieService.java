@@ -25,14 +25,29 @@ public class MovieService {
     }
 
     public Movie addMovie(Movie movie) {
-        if (movie.getTitle() == null || movie.getTitle().isBlank()) {
-            throw new IllegalArgumentException("Movie title is required");
+        if (movie == null || movie.getTitle() == null || movie.getTitle().isBlank()) {
+            throw new IllegalArgumentException("Game title is required");
+        }
+        movie.setTitle(movie.getTitle().trim());
+        if (movie.getGenre() == null || movie.getGenre().isBlank()) {
+            throw new IllegalArgumentException("Game genre is required");
+        }
+        if (movie.getReleaseYear() == null || movie.getReleaseYear() < 1888 || movie.getReleaseYear() > 2100) {
+            throw new IllegalArgumentException("Enter a valid release year");
         }
 
         if (movieRepository.existsByTitleIgnoreCase(movie.getTitle())) {
-            throw new IllegalArgumentException("Movie title already exists");
+            throw new IllegalArgumentException("Game title already exists");
         }
 
         return movieRepository.save(movie);
+    }
+
+    public void deleteMovie(Long id) {
+        if (!movieRepository.existsById(id)) {
+            throw new IllegalArgumentException("Game not found");
+        }
+
+        movieRepository.deleteById(id);
     }
 }

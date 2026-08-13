@@ -1,0 +1,13 @@
+# Use this workspace to collaborate
+workspace:
+  id: b9c91866-6131-491b-8a6f-a21905f0a81e
+
+cloudResources:
+  collections:
+    ../postman/collections/GameFlix API: 91042476-b9ad-43e4-92e6-e67e7e4ca4d7
+
+# All resources in the `postman/` folder are automatically registered in Local View.
+# Point to additional files outside the `postman/` folder to register them individually. Example:
+#localResources:
+#  collections:
+#    - ../tests/E2E Test Collection/

@@ -1,0 +1,21 @@
+$kind: http-request
+url: "{{baseUrl}}/api/subscription"
+method: PUT
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{jwtToken}}
+body:
+  type: text
+  content: |-
+    {
+      "plan": "PRO"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Subscription is saved", function () {
+          pm.response.to.have.status(200);
+          pm.expect(pm.response.json().plan).to.eql("PRO");
+      });
+    language: text/javascript
+order: 3000

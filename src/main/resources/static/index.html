@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GameFlix Video Game Subscription</title>
+    <link rel="stylesheet" href="styles.css?v=3">
+</head>
+<body>
+    <header>
+        <b>GAME<span>FLIX</span></b>
+        <small>Play more. Pay less.</small>
+    </header>
+
+    <main>
+        <section class="hero">
+            <p>PLAY • DISCOVER • SUBSCRIBE</p>
+            <h1>Your next favorite game is waiting.</h1>
+            <div class="intro">
+                GameFlix is a video game subscription service where members
+                can create an account, choose a plan, and explore a growing
+                game catalog.
+            </div>
+        </section>
+
+        <section class="auth">
+            <form id="register">
+                <h2>Create account</h2>
+
+                <label>
+                    Username
+                    <input name="username" required>
+                </label>
+
+                <label>
+                    Password
+                    <input name="password" type="password" required>
+                </label>
+
+                <button type="submit">Register</button>
+                <output></output>
+            </form>
+
+            <form id="login">
+                <h2>Welcome back</h2>
+
+                <label>
+                    Username
+                    <input name="username" required>
+                </label>
+
+                <label>
+                    Password
+                    <input name="password" type="password" required>
+                </label>
+
+                <button type="submit">Log in</button>
+                <output></output>
+            </form>
+        </section>
+
+        <section class="plans">
+            <h2>Choose your membership</h2>
+
+            <div class="plan-grid">
+                <button class="plan" data-plan="Player">
+                    <b>Player</b>
+                    <span>$7.99/month</span>
+                    <small>Essential game catalog</small>
+                </button>
+
+                <button class="plan featured" data-plan="Pro">
+                    <b>Pro</b>
+                    <span>$12.99/month</span>
+                    <small>Full catalog and new releases</small>
+                </button>
+
+                <button class="plan" data-plan="Family">
+                    <b>Family</b>
+                    <span>$17.99/month</span>
+                    <small>Up to four player profiles</small>
+                </button>
+            </div>
+
+            <output id="plan-message"></output>
+        </section>
+
+        <section class="library">
+            <h2>Game catalog</h2>
+
+            <form id="movie">
+                <label>
+                    Game title
+                    <input name="title" placeholder="Minecraft" required>
+                </label>
+
+                <label>
+                    Genre
+                    <input name="genre" placeholder="Adventure" required>
+                </label>
+
+                <label>
+                    Release year
+                    <input
+                        name="releaseYear"
+                        type="number"
+                        min="1958"
+                        max="2100"
+                        required
+                    >
+                </label>
+
+                <button type="submit">Add game</button>
+                <output></output>
+            </form>
+
+            <div id="movies"></div>
+        </section>
+    </main>
+
+    <footer>
+        GameFlix Video Game Subscription • HCDD 412 Final Project
+    </footer>
+
+    <script src="app.js?v=5"></script>
+</body>
+</html>

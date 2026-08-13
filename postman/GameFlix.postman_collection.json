@@ -1,0 +1,190 @@
+{
+  "info": {
+    "_postman_id": "16c01d31-86a2-42ad-b801-8c563b61c410",
+    "name": "GameFlix API",
+    "description": "Tests registration, JWT login, subscriptions, catalog access, and failed authentication cases.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "username",
+      "value": "postman_player"
+    },
+    {
+      "key": "password",
+      "value": "gameflix123"
+    },
+    {
+      "key": "jwtToken",
+      "value": ""
+    },
+    {
+      "key": "invalidToken",
+      "value": "invalid-token"
+    }
+  ],
+  "item": [
+    {
+      "name": "1 - Register User",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"{{username}}\",\n  \"password\": \"{{password}}\"\n}"
+        },
+        "url": "{{baseUrl}}/api/register"
+      }
+    },
+    {
+      "name": "2 - Login and Save JWT",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Login succeeds\", function () {",
+              "    pm.response.to.have.status(200);",
+              "    pm.expect(pm.response.json().message).to.eql(\"Login successful\");",
+              "});",
+              "pm.collectionVariables.set(\"jwtToken\", pm.response.json().token);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"{{username}}\",\n  \"password\": \"{{password}}\"\n}"
+        },
+        "url": "{{baseUrl}}/api/login"
+      }
+    },
+    {
+      "name": "3 - Save Subscription with JWT",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Subscription is saved\", function () {",
+              "    pm.response.to.have.status(200);",
+              "    pm.expect(pm.response.json().plan).to.eql(\"PRO\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwtToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"plan\": \"PRO\"\n}"
+        },
+        "url": "{{baseUrl}}/api/subscription"
+      }
+    },
+    {
+      "name": "4 - Read Subscription with JWT",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwtToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/subscription"
+      }
+    },
+    {
+      "name": "5 - Public Game Catalog",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/movies"
+      }
+    },
+    {
+      "name": "Attack 1 - Missing JWT",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Missing token is rejected\", function () {",
+              "    pm.response.to.have.status(401);",
+              "    pm.expect(pm.response.json().message).to.eql(\"Login required\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"plan\": \"FAMILY\"\n}"
+        },
+        "url": "{{baseUrl}}/api/subscription"
+      }
+    },
+    {
+      "name": "Attack 2 - Invalid JWT",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Invalid token is rejected\", function () {",
+              "    pm.response.to.have.status(401);",
+              "    pm.expect(pm.response.json().message).to.eql(\"Invalid or expired token\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{invalidToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/movies/1"
+      }
+    }
+  ]
+}

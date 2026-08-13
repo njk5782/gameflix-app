@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{baseUrl}}/api/subscription"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "plan": "FAMILY"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Missing token is rejected", function () {
+          pm.response.to.have.status(401);
+          pm.expect(pm.response.json().message).to.eql("Login required");
+      });
+    language: text/javascript
+order: 6000

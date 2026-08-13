@@ -23,7 +23,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public AuthResponse login(@RequestBody AuthRequest request) {
-        String message = userService.loginUser(request);
-        return new AuthResponse(message);
+        return userService.loginUser(request);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.gameflix.service;
 
 import com.example.gameflix.dto.AuthRequest;
+import com.example.gameflix.dto.AuthResponse;
 import com.example.gameflix.model.User;
 import com.example.gameflix.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,13 +14,16 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, JwtService jwtService) {
         this.userRepository = userRepository;
+        this.jwtService = jwtService;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     public String registerUser(AuthRequest request) {
+        validateRequest(request);
         if (userRepository.existsByUsername(request.getUsername())) {
             return "Username already exists";
         }
@@ -35,19 +39,28 @@ public class UserService {
         return "User registered successfully";
     }
 
-    public String loginUser(AuthRequest request) {
+    public AuthResponse loginUser(AuthRequest request) {
+        validateRequest(request);
         Optional<User> existingUser = userRepository.findByUsername(request.getUsername());
 
         if (existingUser.isEmpty()) {
-            return "Invalid username or password";
+            return new AuthResponse("Invalid username or password");
         }
 
         User user = existingUser.get();
 
         if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            return "Login successful";
+            String token = jwtService.createToken(user.getUsername());
+            return new AuthResponse("Login successful", token);
         }
 
-        return "Invalid username or password";
+        return new AuthResponse("Invalid username or password");
+    }
+
+    private void validateRequest(AuthRequest request) {
+        if (request == null || request.getUsername() == null || request.getUsername().isBlank()
+                || request.getPassword() == null || request.getPassword().isBlank()) {
+            throw new IllegalArgumentException("Username and password are required");
+        }
     }
 }
